@@ -27,7 +27,7 @@
 
 %define	name	xchat
 %define	version	2.8.2
-%define	rel	2
+%define	rel	3
 %define	main_summary	Graphical IRC client
 %define	perl_version	%(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
 %define	iconname	xchat.png 
