@@ -168,7 +168,7 @@ Provides tcl scripting capability to XChat.
 rm -rf %{buildroot}
 %makeinstall_std
 
-%find_lang xchat
+%find_lang %{name}
 
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 convert xchat.png -geometry 48x48 %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{iconname}
@@ -188,6 +188,7 @@ rm -rf %{buildroot}%{_libdir}/xchat/plugins/*.la
 
 %post
 %{update_menus}
+%update_icon_cache hicolor
 
 %if %build_dbus
 %post_install_gconf_schemas apps_xchat_url_handler
@@ -198,6 +199,7 @@ rm -rf %{buildroot}%{_libdir}/xchat/plugins/*.la
 
 %postun
 %{clean_menus}
+%clean_icon_cache hicolor
 
 %clean
 rm -fr %{buildroot}
