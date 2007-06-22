@@ -173,7 +173,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 convert xchat.png -geometry 48x48 %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{iconname}
 convert xchat.png -geometry 32x32 %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{iconname}
-convert xchat.png -geometry 16x16 %{buildroot}%{_miconsdir}/hicolor/16x16/apps/%{iconname}
+convert xchat.png -geometry 16x16 %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{iconname}
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
