@@ -26,8 +26,8 @@
 
 
 %define	name	xchat
-%define	version	2.8.2
-%define	rel	3
+%define	version	2.8.4
+%define	rel	1
 %define	main_summary	Graphical IRC client
 %define	perl_version	%(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
 %define	iconname	xchat.png 
@@ -48,7 +48,6 @@ Patch0:		xchat-2.6.4-ctcp_version.patch
 Patch2:		xchat-2.0.8-nicksuffix.patch
 Patch3:		xchat-2.6.1-servlist.patch
 Patch4:		xchat-2.4.1-firefox.patch
-Patch5:		xchat-latin9.patch
 Obsoletes:	xchat-dbus < 2.6.8
 Provides:	xchat-dbus = %{version}-%{release}
 Obsoletes:	xchat-systray-integration < 2.4.6
