@@ -27,7 +27,7 @@
 
 %define	name	xchat
 %define	version	2.8.4
-%define	rel	1
+%define	rel	2
 %define	main_summary	Graphical IRC client
 %define	perl_version	%(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
 %define	iconname	xchat.png 
@@ -51,6 +51,8 @@ Patch4:		xchat-2.4.1-firefox.patch
 Obsoletes:	xchat-dbus < 2.6.8
 Provides:	xchat-dbus = %{version}-%{release}
 Obsoletes:	xchat-systray-integration < 2.4.6
+# To get the balloon alerts working
+Requires:	libnotify
 BuildRequires:	bison
 Buildrequires:	gtk+2-devel
 BuildRequires:	openssl-devel
