@@ -27,7 +27,7 @@
 
 %define	name	xchat
 %define	version	2.8.4
-%define	rel	4
+%define	rel	5
 %define	main_summary	Graphical IRC client
 %define	perl_version	%(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
 %define	iconname	xchat.png 
@@ -41,13 +41,16 @@ Version:	%{version}
 Release:	%mkrel %{rel}
 Summary:	%{main_summary}
 Group:		Networking/IRC
-License:	GPL
+License:	GPLv2+
 Url:		http://www.xchat.org
-Source:		http://www.xchat.org/files/source/2.6/%{name}-%{version}.tar.bz2 
+Source:		http://www.xchat.org/files/source/2.8/%{name}-%{version}.tar.bz2
 Patch0:		xchat-2.6.4-ctcp_version.patch
 Patch2:		xchat-2.0.8-nicksuffix.patch
 Patch3:		xchat-2.6.1-servlist.patch
 Patch4:		xchat-2.4.1-firefox.patch
+Patch5:		xc284-fix-scrollbfdleak.diff
+Patch6:		xc284-improvescrollback.diff
+Patch7:		xc284-scrollbmkdir.diff
 Obsoletes:	xchat-dbus < 2.6.8
 Provides:	xchat-dbus = %{version}-%{release}
 Obsoletes:	xchat-systray-integration < 2.4.6
@@ -123,6 +126,9 @@ Provides tcl scripting capability to XChat.
 %patch2 -p1
 %patch3 -p0 -b .default_server
 %patch4 -p0 -b .firefox
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
 
 %build
 
@@ -177,7 +183,7 @@ convert xchat.png -geometry 16x16 %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{
 
 perl -pi -e 's,%{name}.png,%{name},g' %{buildroot}%{_datadir}/applications/xchat.desktop
 
-desktop-file-install --vendor="" \
+desktop-file-install \
   --remove-category="Application" \
   --add-category="GTK" \
   --add-category="IRCClient" \
@@ -208,7 +214,7 @@ rm -fr %{buildroot}
 
 %files -f xchat.lang
 %defattr(-,root,root)
-%doc README ChangeLog faq.html COPYING plugins/plugin20.html
+%doc README ChangeLog faq.html plugins/plugin20.html
 %{_bindir}/xchat
 %{_datadir}/applications/xchat.desktop
 %{_datadir}/dbus-1/services/org.xchat.service.service
