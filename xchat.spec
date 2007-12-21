@@ -82,6 +82,7 @@ BuildRequires:	dbus-glib-devel
 %if %build_plf
 BuildRequires:	socks5-devel
 %endif
+Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 X-Chat is yet another IRC client for the X Window System, using the Gtk+
