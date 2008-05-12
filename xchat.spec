@@ -1,45 +1,17 @@
 %define	build_plf 0
 
-%if %{mdkversion} < 200610
-%define	build_dbus 0
-%else
-%define	build_dbus 1
-%endif
-
-%define	build_perl 1
-%define	build_python 1
-%define	build_tcl 1
-
-%{?_with_plf: %{expand: %%global build_plf 1}}
-
-%{?_without_dbus: %{expand: %%global build_dbus 0}} 
-%{?_with_dbus: %{expand: %%global build_dbus 1}} 
-
-%{?_without_perl: %{expand: %%global build_perl 0}} 
-%{?_with_perl: %{expand: %%global build_perl 1}} 
-
-%{?_without_python: %{expand: %%global build_python 0}} 
-%{?_with_python: %{expand: %%global build_python 1}} 
-
-%{?_without_tcl: %{expand: %%global build_tcl 0}} 
-%{?_with_tcl: %{expand: %%global build_tcl 1}} 
-
-
-%define	name	xchat
-%define	version	2.8.4
-%define	rel	6
-%define	main_summary	Graphical IRC client
-%define	perl_version	%(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
-%define	iconname	xchat.png 
-
 %if %build_plf
 %define	distsuffix plf
 %endif 
 
-Name:		%{name}
-Version:	%{version}
-Release:	%mkrel %{rel}
-Summary:	%{main_summary}
+%{?_with_plf: %{expand: %%global build_plf 1}}
+
+%define	perl_version %(rpm -q --qf '%%{epoch}:%%{VERSION}' perl)
+
+Summary:	A GTK+ IRC client
+Name:		xchat
+Version:	2.8.4
+Release:	%mkrel	7
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
@@ -51,37 +23,27 @@ Patch4:		xchat-2.4.1-firefox.patch
 Patch5:		xc284-fix-scrollbfdleak.diff
 Patch6:		xc284-improvescrollback.diff
 Patch7:		xc284-scrollbmkdir.diff
+BuildRequires:	bison
+Buildrequires:	gtk+2-devel
+BuildRequires:	openssl-devel
+BuildRequires:	imagemagick
+BuildRequires:	GConf2
+BuildRequires:	desktop-file-utils
+BuildRequires:	libsexy-devel
+BuildRequires:	gettext-devel
+BuildRequires:	perl-devel
+BuildRequires:	python-devel
+BuildRequires:	tcl
+BuildRequires:	tcl-devel
+BuildRequires:	dbus-glib-devel 
+%if %build_plf
+BuildRequires:	socks5-devel
+%endif
 Obsoletes:	xchat-dbus < 2.6.8
 Provides:	xchat-dbus = %{version}-%{release}
 Obsoletes:	xchat-systray-integration < 2.4.6
 # To get the balloon alerts working
 Requires:	libnotify
-BuildRequires:	bison
-Buildrequires:	gtk+2-devel
-BuildRequires:	openssl-devel
-BuildRequires:	ImageMagick
-BuildRequires:	GConf2
-BuildRequires:	desktop-file-utils
-BuildRequires:	libsexy-devel
-BuildRequires:	gettext-devel
-%if %build_perl
-BuildRequires:	perl-devel
-%endif
-%if %build_python
-BuildRequires:	python-devel
-%endif
-%if %build_tcl
-BuildRequires:	tcl
-%if %{mdkversion} >= 200610
-BuildRequires:	tcl-devel
-%endif
-%endif
-%if %build_dbus
-BuildRequires:	dbus-glib-devel 
-%endif
-%if %build_plf
-BuildRequires:	socks5-devel
-%endif
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -99,7 +61,7 @@ This package contains xchat-plugin.h needed to build external plugins.
 %package perl
 Summary:	XChat Perl plugin
 Group:		Networking/IRC
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	perl-base = %perl_version
 
 %description perl
@@ -108,7 +70,7 @@ Provides Perl scripting capability to XChat.
 %package python
 Summary:	XChat Python plugin
 Group:		Networking/IRC
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description python
 Provides Python scripting capability to XChat.
@@ -116,7 +78,7 @@ Provides Python scripting capability to XChat.
 %package tcl
 Summary:	XChat TCL plugin
 Group:		Networking/IRC
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description tcl
 Provides tcl scripting capability to XChat.
@@ -132,41 +94,23 @@ Provides tcl scripting capability to XChat.
 %patch7 -p1
 
 %build
-
-%if %{mdkversion} < 1010
-%define	__libtoolize /bin/true
-%endif
-
 ./autogen.sh
 
-%configure2_5x  --enable-openssl \
-		--enable-ipv6 \
-		--enable-hebrew \
-		--enable-japanese-conv \
-%if %build_perl
-		--enable-perl \
-%else
-		--disable-perl \
-%endif
-%if %build_dbus
-		--enable-dbus \
-%else
-		--disable-dbus \
-%endif
-%if %build_python
-		--enable-python \
-%else
-		--disable-python \
-%endif
-%if %build_tcl
-		--enable-tcl=%{_libdir} \
-%else
-	        --disable-tcl
-%endif
-		--disable-textfe \
-		--enable-spell=libsexy \
+%configure2_5x  \
+	--enable-openssl \
+	--enable-ipv6 \
+	--disable-rpath \
+	--enable-threads=posix \
+	--enable-xft \
+	--enable-shm \
+	--enable-perl \
+	--enable-dbus \
+	--enable-python \
+	--enable-tcl=%{_libdir} \
+	--disable-textfe \
+	--enable-spell=libsexy \
 %if %build_plf
-		--enable-socks
+	--enable-socks
 %endif
 
 %make
@@ -178,9 +122,9 @@ rm -rf %{buildroot}
 %find_lang %{name}
 
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
-convert xchat.png -geometry 48x48 %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{iconname}
-convert xchat.png -geometry 32x32 %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{iconname}
-convert xchat.png -geometry 16x16 %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{iconname}
+convert xchat.png -geometry 48x48 %{buildroot}%{_iconsdir}/hicolor/48x48/apps/%{name}.png
+convert xchat.png -geometry 32x32 %{buildroot}%{_iconsdir}/hicolor/32x32/apps/%{name}.png
+convert xchat.png -geometry 16x16 %{buildroot}%{_iconsdir}/hicolor/16x16/apps/%{name}.png
 
 perl -pi -e 's,%{name}.png,%{name},g' %{buildroot}%{_datadir}/applications/xchat.desktop
 
@@ -198,13 +142,10 @@ rm -rf %{buildroot}%{_libdir}/xchat/plugins/*.la
 %post
 %{update_menus}
 %update_icon_cache hicolor
-
-%if %build_dbus
 %post_install_gconf_schemas apps_xchat_url_handler
 
 %preun 
 %preun_uninstall_gconf_schemas apps_xchat_url_handler
-%endif
 
 %postun
 %{clean_menus}
@@ -229,23 +170,17 @@ rm -fr %{buildroot}
 %defattr(-,root,root)
 %{_includedir}/xchat-plugin.h
 
-%if %build_perl
 %files perl
 %defattr(-,root,root)
 %doc README
 %{_libdir}/xchat/plugins/perl.so
-%endif
 
-%if %build_python
 %files python
 %defattr(-,root,root)
 %doc README
 %{_libdir}/xchat/plugins/python.so
-%endif
 
-%if %build_tcl
 %files tcl
 %defattr(-,root,root)
 %doc README
 %{_libdir}/xchat/plugins/tcl.so
-%endif
