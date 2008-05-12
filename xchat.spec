@@ -11,12 +11,14 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.4
-Release:	%mkrel	7
+Release:	%mkrel 8
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
-Source:		http://www.xchat.org/files/source/2.8/%{name}-%{version}.tar.bz2
+Source0:	http://www.xchat.org/files/source/2.8/%{name}-%{version}.tar.bz2
+Source1:	%{name}-pl.po
 Patch0:		xchat-2.6.4-ctcp_version.patch
+Patch1:		xchat-2.8.4-locales.patch
 Patch2:		xchat-2.0.8-nicksuffix.patch
 Patch3:		xchat-2.6.1-servlist.patch
 Patch4:		xchat-2.4.1-firefox.patch
@@ -86,12 +88,15 @@ Provides tcl scripting capability to XChat.
 %prep
 %setup -q
 %patch0
+%patch1 -p1
 %patch2 -p1
 %patch3 -p0 -b .default_server
 %patch4 -p0 -b .firefox
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+
+cp %{SOURCE1} po/pl.po
 
 %build
 ./autogen.sh
@@ -113,6 +118,7 @@ Provides tcl scripting capability to XChat.
 	--enable-socks
 %endif
 
+%make -C po update-po
 %make
 
 %install
