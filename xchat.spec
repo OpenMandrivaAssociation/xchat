@@ -11,7 +11,7 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.4
-Release:	%mkrel 8
+Release:	%mkrel 9
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
@@ -25,6 +25,8 @@ Patch4:		xchat-2.4.1-firefox.patch
 Patch5:		xc284-fix-scrollbfdleak.diff
 Patch6:		xc284-improvescrollback.diff
 Patch7:		xc284-scrollbmkdir.diff
+# (tpg) https://bugzilla.redhat.com/show_bug.cgi?id=282691
+Patch8:		xchat-2.8.4-shm-pixmaps.patch
 BuildRequires:	bison
 Buildrequires:	gtk+2-devel
 BuildRequires:	openssl-devel
@@ -37,7 +39,7 @@ BuildRequires:	perl-devel
 BuildRequires:	python-devel
 BuildRequires:	tcl
 BuildRequires:	tcl-devel
-BuildRequires:	dbus-glib-devel 
+BuildRequires:	dbus-glib-devel
 %if %build_plf
 BuildRequires:	socks5-devel
 %endif
@@ -95,18 +97,21 @@ Provides tcl scripting capability to XChat.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 cp %{SOURCE1} po/pl.po
 
 %build
 ./autogen.sh
+# (tpg) disable Xft as it breaks RTL languages
+# use slower pango instead
 
 %configure2_5x  \
 	--enable-openssl \
 	--enable-ipv6 \
 	--disable-rpath \
 	--enable-threads=posix \
-	--enable-xft \
+	--disable-xft \
 	--enable-shm \
 	--enable-perl \
 	--enable-dbus \
