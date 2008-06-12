@@ -150,17 +150,21 @@ cp plugins/xchat-plugin.h %{buildroot}%{_includedir}/
 
 rm -rf %{buildroot}%{_libdir}/xchat/plugins/*.la
 
+%if %mdkversion < 200900
 %post
 %{update_menus}
 %update_icon_cache hicolor
 %post_install_gconf_schemas apps_xchat_url_handler
+%endif
 
 %preun 
 %preun_uninstall_gconf_schemas apps_xchat_url_handler
 
+%if %mdkversion < 200900
 %postun
 %{clean_menus}
 %clean_icon_cache hicolor
+%endif
 
 %clean
 rm -fr %{buildroot}
