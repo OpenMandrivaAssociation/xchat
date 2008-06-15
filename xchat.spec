@@ -18,13 +18,9 @@ Url:		http://www.xchat.org
 Source0:	http://www.xchat.org/files/source/2.8/%{name}-%{version}.tar.bz2
 Source1:	%{name}-pl.po
 Patch0:		xchat-2.6.4-ctcp_version.patch
-Patch1:		xchat-2.8.4-locales.patch
+Patch1:		xchat-2.8.6-locales.patch
 Patch2:		xchat-2.0.8-nicksuffix.patch
 Patch3:		xchat-2.6.1-servlist.patch
-Patch4:		xchat-2.4.1-firefox.patch
-Patch5:		xc284-fix-scrollbfdleak.diff
-Patch6:		xc284-improvescrollback.diff
-Patch7:		xc284-scrollbmkdir.diff
 # (tpg) https://bugzilla.redhat.com/show_bug.cgi?id=282691
 Patch8:		xchat-2.8.4-shm-pixmaps.patch
 BuildRequires:	bison
@@ -40,6 +36,7 @@ BuildRequires:	python-devel
 BuildRequires:	tcl
 BuildRequires:	tcl-devel
 BuildRequires:	dbus-glib-devel
+BuildRequires:	libntlm-devel
 %if %build_plf
 BuildRequires:	socks5-devel
 %endif
@@ -90,13 +87,9 @@ Provides tcl scripting capability to XChat.
 %prep
 %setup -q
 %patch0
-%patch1 -p1
+%patch1 -p1 -b .locales
 %patch2 -p1
 %patch3 -p0 -b .default_server
-%patch4 -p0 -b .firefox
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
 %patch8 -p1
 
 cp %{SOURCE1} po/pl.po
