@@ -97,6 +97,9 @@ Provides tcl scripting capability to XChat.
 cp %{SOURCE1} po/pl.po
 
 %build
+# fix build against latest GTK+
+sed -i -e 's/#define GTK_DISABLE_DEPRECATED//g' src/fe-gtk/*.c
+
 ./autogen.sh
 # (tpg) disable Xft as it breaks RTL languages
 # use slower pango instead
