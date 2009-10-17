@@ -11,7 +11,7 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.6
-Release:	%mkrel 6
+Release:	%mkrel 7
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
@@ -23,6 +23,8 @@ Patch3:		xchat-2.6.1-servlist.patch
 Patch8:		xchat-2.8.4-shm-pixmaps.patch
 Patch9:		http://xchat.org/files/source/2.8/patches/xc286-smallfixes.diff
 Patch10:        xchat-2.8.6-CVE-2009-0315-debian.patch 
+Patch11:	xchat-2.8.6-C_onnect.patch
+Patch12:	xchat-2.8.6-save-favorites.patch
 BuildRequires:	bison
 Buildrequires:	gtk+2-devel
 BuildRequires:	openssl-devel
@@ -92,7 +94,8 @@ Provides tcl scripting capability to XChat.
 %patch8 -p1
 %patch9 -p1
 %patch10 -p1 -b .cve-2009-0315
-
+%patch11 -p0 -b .C_onnect
+%patch12 -p0 -b .favorites
 %build
 # fix build against latest GTK+
 sed -i -e 's/#define GTK_DISABLE_DEPRECATED//g' src/fe-gtk/*.c
