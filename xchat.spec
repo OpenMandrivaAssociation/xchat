@@ -11,7 +11,7 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.6
-Release:	%mkrel 7
+Release:	%mkrel 8
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
