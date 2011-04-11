@@ -11,15 +11,23 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.8
-Release:	%mkrel 4
+Release:	%mkrel 5
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
 Source0:	http://www.xchat.org/files/source/2.8/%{name}-%{version}.tar.bz2
 Patch0:		xchat-2.6.4-ctcp_version.patch
-Patch2:		xchat-2.0.8-nicksuffix.patch
-Patch3:		xchat-2.6.1-servlist.patch
-Patch10:        xchat-2.8.6-CVE-2009-0315-debian.patch 
+Patch1:		xchat-2.0.8-nicksuffix.patch
+Patch2:		xchat-2.6.1-servlist.patch
+Patch3:		xchat-2.8.6-CVE-2009-0315-debian.patch
+# fedora patches
+Patch100:	xchat-1.8.7-use-sysconf-to-detect-cpus.patch
+Patch101:	xchat-2.8.4-disable-tray-icon-by-default.patch
+Patch102:	xchat-2.8.6-default-utf8.patch
+Patch103:	xchat-2.8.6-change-page-activity.patch
+Patch104:	xchat-2.8.8-freenode-ports.diff
+Patch105:	xchat-2.8.8-libnotify07.patch
+Patch106:	xchat-2.8.8-link-against-libnotify.patch
 BuildRequires:	bison
 Buildrequires:	gtk+2-devel
 BuildRequires:	openssl-devel
@@ -42,6 +50,7 @@ Provides:	xchat-dbus = %{version}-%{release}
 Obsoletes:	xchat-systray-integration < 2.4.6
 # To get the balloon alerts working
 Requires:	libnotify
+BuildRequires:	libnotify-devel
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -82,11 +91,21 @@ Requires:	%{name} = %{version}-%{release}
 Provides tcl scripting capability to XChat.
 
 %prep
+
 %setup -q
 %patch0
-%patch2 -p1
-%patch3 -p0 -b .default_server
-%patch10 -p1 -b .cve-2009-0315
+%patch1 -p1
+%patch2 -p0 -b .default_server
+%patch3 -p1 -b .cve-2009-0315
+
+# fedora patches
+%patch100 -p0 -b .use-sysconf-to-detect-cpus
+%patch101 -p1 -b .tray-icon
+%patch102 -p1 -b .default-utf8
+%patch103 -p1 -b .active-channel-switch
+%patch104 -p0 -b .freenode-ports
+%patch105 -p1 -b .libnotify07
+%patch106 -p1 -b .link-against-libnotify
 
 %build
 # fix build against latest GTK+
