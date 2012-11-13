@@ -1,0 +1,11 @@
+--- src/common/ctcp.c~	2006-06-08 17:41:20.000000000 +0200
++++ src/common/ctcp.c	2006-06-08 17:42:56.000000000 +0200
+@@ -130,7 +130,7 @@
+ 	if (!strcasecmp (msg, "VERSION") && !prefs.hidever)
+ 	{
+ 		snprintf (outbuf, sizeof (outbuf), "VERSION xchat "PACKAGE_VERSION" %s",
+-					 get_cpu_str ());
++					 "\000");
+ 		serv->p_nctcp (serv, nick, outbuf);
+ 	}
+ 

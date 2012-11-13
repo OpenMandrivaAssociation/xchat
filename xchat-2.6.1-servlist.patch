@@ -1,0 +1,22 @@
+Index: src/common/servlist.c
+===================================================================
+--- src/common/servlist.c
++++ src/common/servlist.c	2008-12-27 13:05:47.000000000 +0100
+@@ -206,7 +206,7 @@
+ 	{0,			"irc.ggn.net"},
+ 	{0,			"irc.vendetta.com"},
+ 
+-	{"FreeNode",	0},
++	{"FreeNode",	0, "#mandriva"},
+ 	{0,				"irc.freenode.net"},
+ 
+ /*	{"Freeworld",	0},
+@@ -902,7 +902,7 @@
+ 				free (net->encoding);
+ 				net->encoding = strdup (def[i].charset);
+ 			}
+-			if (g_str_hash (def[i].network) == 0x8e1b96f7)
++			if (!strcmp (def[i].network, "FreeNode"))
+ 				prefs.slist_select = j;
+ 			j++;
+ 		} else
