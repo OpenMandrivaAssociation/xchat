@@ -11,7 +11,7 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.8
-Release:	%mkrel 8
+Release:	9
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
@@ -30,7 +30,7 @@ Patch105:	xchat-2.8.8-libnotify07.patch
 Patch106:	xchat-2.8.8-link-against-libnotify.patch
 Patch107:	fixglib.patch
 BuildRequires:	bison
-Buildrequires:	gtk+3-devel
+BuildRequires:	gtk+3-devel
 BuildRequires:	openssl-devel
 BuildRequires:	imagemagick
 BuildRequires:	GConf2
@@ -52,7 +52,6 @@ Obsoletes:	xchat-systray-integration < 2.4.6
 # To get the balloon alerts working
 Requires:	libnotify
 BuildRequires:	libnotify-devel
-Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 X-Chat is yet another IRC client for the X Window System, using the Gtk+
