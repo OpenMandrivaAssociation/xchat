@@ -105,14 +105,15 @@ Provides tcl scripting capability to XChat.
 %patch106 -p1 -b .link-against-libnotify
 %patch107 -p1 -b .fixglib
 
-%build
 # fix build against latest GTK+
 sed -i -e 's/#define GTK_DISABLE_DEPRECATED//g' src/fe-gtk/*.c
 
+find . -name Makefile.in |xargs sed -i -e 's,configure.in,configure.ac,g'
 ./autogen.sh
+
+%build
 # (tpg) disable Xft as it breaks RTL languages
 # use slower pango instead
-
 %configure2_5x  \
 	--enable-openssl \
 	--enable-ipv6 \
