@@ -20,7 +20,7 @@ Patch0:		xchat-2.6.4-ctcp_version.patch
 Patch1:		xchat-2.0.8-nicksuffix.patch
 Patch2:		xchat-2.6.1-servlist.patch
 Patch3:		xchat-2.8.6-CVE-2009-0315-debian.patch
-Patch4:		xchar-2.8.8-autoconf.patch
+Patch4:		xchat-2.8.8-autoconf.patch
 # fedora patches
 Patch100:	xchat-1.8.7-use-sysconf-to-detect-cpus.patch
 Patch101:	xchat-2.8.4-disable-tray-icon-by-default.patch
