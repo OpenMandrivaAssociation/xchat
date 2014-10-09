@@ -11,7 +11,7 @@
 Summary:	A GTK+ IRC client
 Name:		xchat
 Version:	2.8.8
-Release:	16
+Release:	17
 Group:		Networking/IRC
 License:	GPLv2+
 Url:		http://www.xchat.org
@@ -67,7 +67,6 @@ This package contains xchat-plugin.h needed to build external plugins.
 Summary:	XChat Perl plugin
 Group:		Networking/IRC
 Requires:	%{name} = %{version}-%{release}
-Requires:	perl-base = %perl_version
 
 %description perl
 Provides Perl scripting capability to XChat.
